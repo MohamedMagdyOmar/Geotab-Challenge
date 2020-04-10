@@ -65,13 +65,14 @@ namespace ConsoleApp1
 
 				if (firstname != null && lastname != null)
 				{
+					// validate if it comes at the end of the sentence, or at the beginning of a sentence, or did not come at all
 					int index = joke.IndexOf("Chuck Norris");
 					string firstPart = joke.Substring(0, index);
 					string secondPart = joke.Substring(0 + index + "Chuck Norris".Length, joke.Length - (index + "Chuck Norris".Length));
 					joke = firstPart + " " + firstname + " " + lastname + secondPart;
 				}
-
-				listOfJokes.Add(JsonConvert.DeserializeObject<dynamic>(joke).value);
+				
+				listOfJokes.Add(Convert.ToString(JsonConvert.DeserializeObject<dynamic>(joke).value));
 			}
 
 			return listOfJokes.ToArray();
