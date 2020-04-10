@@ -18,7 +18,13 @@ namespace ConsoleApp1
         static void Main(string[] args)
         {
             printer.Value("Press ? to get instructions.").ToString();
-            if (Console.ReadLine() == "?")
+            string userInput = Console.ReadLine();
+            if (userInput != "?")
+            {
+                printer.Value("User Input Is Wrong, Default value ? has been selected ").ToString();
+                userInput = "?";
+            }
+            if (userInput == "?")
             {
                 while (true)
                 {
@@ -29,8 +35,45 @@ namespace ConsoleApp1
                     {
                         getCategories();
                         PrintResults();
+
+                        printer.Value("Enter a category;").ToString();
+                        string jokeCategory = Console.ReadLine();
+                        if (string.IsNullOrEmpty(jokeCategory) || string.IsNullOrWhiteSpace(jokeCategory))
+                        {
+                            printer.Value("No Category Selected, animal is selected as category").ToString();
+                            jokeCategory = "animal";
+                        }
+
+                        printer.Value("How many jokes do you want? (1-9)").ToString();
+                        int numberOfJokes = Int32.Parse(Console.ReadLine());
+                        if (numberOfJokes < 1 || numberOfJokes > 9)
+                        {
+                            printer.Value("Number Of Jokes selected is not between 1 and 9, 1 is selected").ToString();
+                            numberOfJokes = 1;
+                        }
+
+                        printer.Value("Want to use a random name? y/n").ToString();
+                        GetEnteredKey(Console.ReadKey());
+                        if (key == 'y')
+                        {
+                            GetNames();
+                        }
+
+                        else
+                        {
+                            printer.Value("Please Enter First Name: ").ToString();
+                            string firstName = Console.ReadLine();
+
+                            printer.Value("Please Enter Last Name: ").ToString();
+                            string lastName = Console.ReadLine();
+                            names = Tuple.Create(firstName, lastName);
+                        }
+
+                        GetJokesByCategory(jokeCategory, numberOfJokes);
+                        PrintResults();
                     }
-                    if (key == 'r')
+
+                    else if (key == 'r')
                     {
                         printer.Value("Want to use a random name? y/n").ToString();
                         GetEnteredKey(Console.ReadKey());
@@ -109,19 +152,25 @@ namespace ConsoleApp1
 
         private static void GetRandomJokes(string category, int number)
         {
-            new JsonFeed("https://api.chucknorris.io", number);
-            results = JsonFeed.GetRandomJokes(names?.Item1, names?.Item2, category);
+            new JsonFeed("https://api.chucknorris.io/jokes/random", number);
+            results = JsonFeed.GetRandomJokes(names?.Item1, names?.Item2);
+        }
+
+        private static void GetJokesByCategory(string category, int number)
+        {
+            new JsonFeed("https://api.chucknorris.io/jokes/random", number);
+            results = JsonFeed.GetJokesByCategory(names?.Item1, names?.Item2, category);
         }
 
         private static void getCategories()
         {
-            new JsonFeed("https://api.chucknorris.io", 0);
+            new JsonFeed("https://api.chucknorris.io/jokes/categories", 0);
             results = JsonFeed.GetCategories();
         }
 
         private static void GetNames()
         {
-            new JsonFeed("http://uinames.com/api/", 0);
+            new JsonFeed("https://randomuser.me/api/", 0);// "https://uinames.com/api/", 0);
             dynamic result = JsonFeed.Getnames();
             names = Tuple.Create(result.name.ToString(), result.surname.ToString());
         }
