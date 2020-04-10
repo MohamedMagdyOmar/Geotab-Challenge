@@ -10,6 +10,7 @@ namespace ConsoleApp1
 {
     class Program
     {
+        // MAY BE WE HAVE MORE THAN 50 IN THE RESULT
         static string[] results = new string[50];
         static char key;
         static Tuple<string, string> names;
@@ -41,6 +42,11 @@ namespace ConsoleApp1
                         if (string.IsNullOrEmpty(jokeCategory) || string.IsNullOrWhiteSpace(jokeCategory))
                         {
                             printer.Value("No Category Selected, animal is selected as category").ToString();
+                            jokeCategory = "animal";
+                        }
+                        else if(!results.Contains(jokeCategory.ToLower()))
+                        {
+                            printer.Value("wrong Category Selected, animal is selected as category").ToString();
                             jokeCategory = "animal";
                         }
 
