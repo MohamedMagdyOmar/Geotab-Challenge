@@ -32,6 +32,12 @@ namespace ConsoleApp1
                     printer.Value("Press c to get categories").ToString();
                     printer.Value("Press r to get random jokes").ToString();
                     GetEnteredKey(Console.ReadKey());
+                    if(key != 'c' && key != 'r')
+                    {
+                        printer.Value("Inserted Value is not correct, category selected as default value").ToString();
+                        key = 'c';
+                    }
+
                     if (key == 'c')
                     {
                         getCategories();
@@ -51,7 +57,13 @@ namespace ConsoleApp1
                         }
 
                         printer.Value("How many jokes do you want? (1-9)").ToString();
-                        int numberOfJokes = Int32.Parse(Console.ReadLine());
+                        int numberOfJokes;
+                        if (!Int32.TryParse(Console.ReadLine(), out numberOfJokes))
+                        {
+                            printer.Value("Inserted Number Of Jokes is not correct, 1 is selected as default value").ToString();
+                            numberOfJokes = 1;
+                        }
+
                         if (numberOfJokes < 1 || numberOfJokes > 9)
                         {
                             printer.Value("Number Of Jokes selected is not between 1 and 9, 1 is selected").ToString();
