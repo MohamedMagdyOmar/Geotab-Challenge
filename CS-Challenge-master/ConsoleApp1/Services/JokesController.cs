@@ -9,35 +9,39 @@ namespace JokeGenerator
 {
     public class JokesController
     {
-        private HttpClient _client;
         private Utilities _utilities;
         private string _url;
+        string requestUri = "jokes/random";
         public JokesController()
         {
-            _url = "https://api.chucknorris.io/jokes/random";
-            _client = new HttpClient();
-
             // we can use dependency injection, but since the solution is simple there is no need for over engineering
             _utilities = new Utilities();
         }
 
         public string GetRandomJokes()
-        {            
+        {
+            HttpClient _client = new HttpClient();
+            _url = "https://api.chucknorris.io";
             _client.BaseAddress = new Uri(_url);
-            return Task.FromResult(_client.GetStringAsync(_url).Result).Result;
+            return Convert.ToString(JsonConvert.DeserializeObject<dynamic>(Task.FromResult(_client.GetStringAsync(requestUri).Result).Result).value);
         }
 
         public string GetJokesByCategory(string jokeCategory)
-        {
-            _url = _utilities.AppendJokeCategory(_url, jokeCategory);
-            return Task.FromResult(_client.GetStringAsync(_url).Result).Result;
+        {           
+            HttpClient _client = new HttpClient();
+            _url = "https://api.chucknorris.io";
+            _client.BaseAddress = new Uri(_url);
+
+            requestUri = _utilities.AppendJokeCategory(requestUri, jokeCategory);
+            return Convert.ToString(JsonConvert.DeserializeObject<dynamic>(Task.FromResult(_client.GetStringAsync(requestUri).Result).Result).value);
         }
 
-        public string[] GetAllJokesCategory()
+        public List<string> GetAllJokesCategories()
         {
             _url = "https://api.chucknorris.io/jokes/categories";
+            HttpClient _client = new HttpClient();
             _client.BaseAddress = new Uri(_url);
-            return JsonConvert.DeserializeObject<string[]>(Task.FromResult(_client.GetStringAsync("categories").Result).Result);
+            return JsonConvert.DeserializeObject<List<string>>(Task.FromResult(_client.GetStringAsync("categories").Result).Result);
         }
     }
 }

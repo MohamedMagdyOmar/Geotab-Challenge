@@ -32,5 +32,13 @@ namespace JokeGenerator
 
             return joke;
         }
+
+        public void PrintResults(List<string> results)
+        {
+            for(int i = 0; i < results.Count; i++)
+            {
+                Console.WriteLine((i + 1) + "- " + results[i]);
+            }
+        }
     }
 }

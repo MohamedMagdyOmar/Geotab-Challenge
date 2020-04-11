@@ -15,15 +15,9 @@ namespace JokeGenerator
             _utilities = new Utilities();
         }
 
-        public string GetRandomJokesWithDefaultName()
+        public List<string> GetJokeCategories()
         {
-            return _controller.GetRandomJokes();
-        }
-
-        public string GetRandomJokesWithSpecificName(string firstName, string lastName)
-        {
-            string joke = _controller.GetRandomJokes();
-            return _utilities.ReplaceNameInJoke(firstName, lastName, joke);
+            return _controller.GetAllJokesCategories();
         }
 
         public List<string> GetListOfRandomJokesWithDefaultName(int numberOfJokes)
@@ -48,17 +42,6 @@ namespace JokeGenerator
             return listOfRandomJokes;
         }
 
-        public string GetJokeByCategoryByDefaultName(string jokeCategory)
-        {
-            return _controller.GetJokesByCategory(jokeCategory);
-        }
-
-        public string GetJokeByCategoryBySpecificName(string category, string firstName, string lastName)
-        {
-            string joke = _controller.GetJokesByCategory(category);
-            return _utilities.ReplaceNameInJoke(firstName, lastName, joke);
-        }
-
         public List<string> GetListOfJokesByCategoryAndDefaultName(int numberOfJokes, string jokeCategory)
         {
             List<string> listOfJokes = new List<string>();
@@ -69,12 +52,12 @@ namespace JokeGenerator
             return listOfJokes;
         }
 
-        public List<string> GetListOfJokesByCategoryAndSpecificName(string category, string firstName, string lastName, int numberOfJokes)
+        public List<string> GetListOfJokesByCategoryAndSpecificName(int numberOfJokes, string jokeCategory, string firstName, string lastName)
         {
             List<string> listOfJokes = new List<string>();
             for (int i = 0; i < numberOfJokes; i++)
             {
-                string joke = _controller.GetJokesByCategory(category);
+                string joke = _controller.GetJokesByCategory(jokeCategory);
                 joke = _utilities.ReplaceNameInJoke(firstName, lastName, joke);
                 listOfJokes.Add(joke);
             }
