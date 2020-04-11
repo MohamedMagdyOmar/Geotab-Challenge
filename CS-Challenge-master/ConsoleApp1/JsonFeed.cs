@@ -24,7 +24,7 @@ namespace ConsoleApp1
 		{
 			HttpClient client = new HttpClient();
 			client.BaseAddress = new Uri(_url);
-			string url = "jokes/random";
+			string url = "https://api.chucknorris.io/jokes/random";
 			List<string> listOfJokes = new List<string>();
 			for (int i = 0; i < numberOfJokes; i++)
 			{
@@ -37,7 +37,7 @@ namespace ConsoleApp1
 					string secondPart = joke.Substring(0 + index + "Chuck Norris".Length, joke.Length - (index + "Chuck Norris".Length));
 					joke = firstPart + " " + firstname + " " + lastname + secondPart;
 				}
-				listOfJokes.Add(JsonConvert.DeserializeObject<dynamic>(joke).value);
+				listOfJokes.Add(Convert.ToString(JsonConvert.DeserializeObject<dynamic>(joke).value));
 			}
 
 

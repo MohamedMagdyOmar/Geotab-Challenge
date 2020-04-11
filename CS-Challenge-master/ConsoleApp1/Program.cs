@@ -97,23 +97,34 @@ namespace ConsoleApp1
                         GetEnteredKey(Console.ReadKey());
                         if (key == 'y')
                             GetNames();
-                        printer.Value("Want to specify a category? y/n").ToString();
-                        if (key == 'y')
-                        {
-                            printer.Value("How many jokes do you want? (1-9)").ToString();
-                            int n = Int32.Parse(Console.ReadLine());
-                            printer.Value("Enter a category;").ToString();
-                            GetRandomJokes(Console.ReadLine(), n);
-                            PrintResults();
-                        }
                         else
                         {
+                            printer.Value("Please Enter First Name: ").ToString();
+                            string firstName = Console.ReadLine();
+
+                            printer.Value("Please Enter Last Name: ").ToString();
+                            string lastName = Console.ReadLine();
+                            names = Tuple.Create(firstName, lastName);
+
                             printer.Value("How many jokes do you want? (1-9)").ToString();
-                            int n = Int32.Parse(Console.ReadLine());
-                            GetRandomJokes(null, n);
+                            int numberOfJokes;
+
+                            if (!Int32.TryParse(Console.ReadLine(), out numberOfJokes))
+                            {
+                                printer.Value("Inserted Number Of Jokes is not correct, 1 is selected as default value").ToString();
+                                numberOfJokes = 1;
+                            }
+
+                            if (numberOfJokes < 1 || numberOfJokes > 9)
+                            {
+                                printer.Value("Number Of Jokes selected is not between 1 and 9, 1 is selected").ToString();
+                                numberOfJokes = 1;
+                            }
+                            GetRandomJokes(numberOfJokes);
                             PrintResults();
                         }
                     }
+                    
                     names = null;
                 }
             }
@@ -168,7 +179,7 @@ namespace ConsoleApp1
             }
         }
 
-        private static void GetRandomJokes(string category, int number)
+        private static void GetRandomJokes(int number)
         {
             new JsonFeed("https://api.chucknorris.io/jokes/random", number);
             results = JsonFeed.GetRandomJokes(names?.Item1, names?.Item2);
