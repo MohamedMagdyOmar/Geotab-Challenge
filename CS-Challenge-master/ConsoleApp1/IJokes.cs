@@ -6,8 +6,8 @@ namespace JokeGenerator
 {
     interface IJokes
     {
-         int GetNumberOfJokes();
-         bool IsRandomNameSelected();
-         Tuple<string, string> GetName();
+        void SetNumberOfJokes();
+        void SetName();
+        void PrintResult();
     }
 }

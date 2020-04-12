@@ -6,8 +6,8 @@ namespace JokeGenerator
 {
     public class Services
     {
-        private JokesController _controller;
-        private Utilities _utilities;
+        private readonly JokesController _controller;
+        private readonly Utilities _utilities;
         public Services()
         {
             // we can use dependency injection
@@ -20,17 +20,7 @@ namespace JokeGenerator
             return _controller.GetAllJokesCategories();
         }
 
-        public List<string> GetListOfRandomJokesWithDefaultName(int numberOfJokes)
-        {
-            List<string> listOfRandomJokes = new List<string>();
-            for(int i = 0; i < numberOfJokes; i++)
-            {
-                listOfRandomJokes.Add(_controller.GetRandomJokes());
-            }
-            return listOfRandomJokes;
-        }
-
-        public List<string> GetListOfRandomJokesWithSpecificName(int numberOfJokes, string firstName, string lastName)
+        public List<string> GetListOfRandomJokes(int numberOfJokes, string firstName, string lastName)
         {
             List<string> listOfRandomJokes = new List<string>();
             for (int i = 0; i < numberOfJokes; i++)
@@ -42,17 +32,7 @@ namespace JokeGenerator
             return listOfRandomJokes;
         }
 
-        public List<string> GetListOfJokesByCategoryAndDefaultName(int numberOfJokes, string jokeCategory)
-        {
-            List<string> listOfJokes = new List<string>();
-            for (int i = 0; i < numberOfJokes; i++)
-            {
-                listOfJokes.Add(_controller.GetJokesByCategory(jokeCategory));
-            }
-            return listOfJokes;
-        }
-
-        public List<string> GetListOfJokesByCategoryAndSpecificName(int numberOfJokes, string jokeCategory, string firstName, string lastName)
+        public List<string> GetListOfJokesByCategory(int numberOfJokes, string jokeCategory, string firstName, string lastName)
         {
             List<string> listOfJokes = new List<string>();
             for (int i = 0; i < numberOfJokes; i++)
