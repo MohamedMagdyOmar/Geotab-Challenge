@@ -17,7 +17,7 @@ namespace ConsoleApp1
 
             while (true)
             {
-                Console.WriteLine("To Select Joke Type, please Press 'c' to show joke categories, or 'r' for random joke, then press ENTER");
+                Console.WriteLine("To Select Joke Type, please Press 'c' to show joke categories, or 'r' for random joke, then press ENTER\n");
                 string userInput = Console.ReadLine();
 
                 switch (userInput)
@@ -31,8 +31,8 @@ namespace ConsoleApp1
                         randomJoke.Builder();
                         break;
                     default:
-                        Console.WriteLine("Inserted Value is not correct, joke by category is selected as default value");
-                        CategoryJokes joke = new CategoryJokes();
+                        Console.WriteLine("Inserted Value is not correct, random joke is selected as default value\n");
+                        RandomJokes joke = new RandomJokes();
                         joke.Builder();
                         break;
                 }

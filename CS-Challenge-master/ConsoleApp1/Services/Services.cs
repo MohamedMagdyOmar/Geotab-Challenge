@@ -43,5 +43,10 @@ namespace JokeGenerator
             }
             return listOfJokes;
         }
+
+        public dynamic GetNames()
+        {
+            return _controller.GetNames();
+        }
     }
 }

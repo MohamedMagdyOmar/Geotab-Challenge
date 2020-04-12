@@ -66,14 +66,7 @@ namespace JokeGenerator
             Console.WriteLine("Want to use a random name? y/n");
             _isRandomNameSelected = Console.ReadLine();
 
-            if (_isRandomNameSelected == "y")
-            {
-                Console.WriteLine("Random Name is selected\n");
-                _names = Tuple.Create("Mohamed", "Tolba");
-                //GetNames();
-            }
-
-            else
+            if(_isRandomNameSelected.ToLower() == "n" || _isRandomNameSelected.ToLower() == "no")
             {
                 Console.WriteLine("Random Name is not selected\n");
                 Console.WriteLine("Please Enter First Name: ");
@@ -82,6 +75,11 @@ namespace JokeGenerator
                 Console.WriteLine("Please Enter Last Name: ");
                 string lastName = Console.ReadLine();
                 _names = Tuple.Create(firstName, lastName);
+            }
+            else
+            {
+                Console.WriteLine("Random Name is selected\n");
+                _names = _services.GetNames();
             }
         }
         private void GetListOfJokes()
