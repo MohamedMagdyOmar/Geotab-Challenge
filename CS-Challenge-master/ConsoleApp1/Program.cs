@@ -1,5 +1,7 @@
 ﻿using System;
 using JokeGenerator;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 
 namespace ConsoleApp1
 {
@@ -15,27 +17,43 @@ namespace ConsoleApp1
             Console.WriteLine("4- If your choice is not correct, default value will be selected automatically.");
             Console.WriteLine("5- After each choice you have to press ENTER, as a confirmation of you choice.\n");
 
+            // we can use logging, but i did not log anything to keep the console clean
+            var serviceProvider = new ServiceCollection().AddLogging(cfg => cfg.AddConsole()).Configure<LoggerFilterOptions>(cfg => cfg.MinLevel = LogLevel.Debug).BuildServiceProvider();
+            var logger = serviceProvider.GetService<ILogger<Program>>();
+
             while (true)
             {
-                Console.WriteLine("To Select Joke Type, please Press 'c' to show joke categories, or 'r' for random joke, then press ENTER\n");
-                string userInput = Console.ReadLine();
-
-                switch (userInput)
+                try
                 {
-                    case "c":
-                        CategoryJokes jokeByCategory = new CategoryJokes();
-                        jokeByCategory.Builder();
-                        break;
-                    case "r":
-                        RandomJokes randomJoke = new RandomJokes();
-                        randomJoke.Builder();
-                        break;
-                    default:
-                        Console.WriteLine("Inserted Value is not correct, random joke is selected as default value\n");
-                        RandomJokes joke = new RandomJokes();
-                        joke.Builder();
-                        break;
+                    Console.WriteLine("To Select Joke Type, please Press 'c' to show joke categories, or 'r' for random joke, then press ENTER\n");
+                    string userInput = Console.ReadLine();
+                    
+                    switch (userInput)
+                    {
+
+                        case "c":
+                            CategoryJokes jokeByCategory = new CategoryJokes();
+                            jokeByCategory.Builder();
+                            break;
+                        case "r":
+                            //logger.LogDebug("User Selected Random Joke");
+                            RandomJokes randomJoke = new RandomJokes();
+                            randomJoke.Builder();
+                            break;
+                        default:
+                            //logger.LogDebug("User Selected wrong choice" + userInput);
+                            Console.WriteLine("Inserted Value is not correct, random joke is selected as default value\n");
+                            RandomJokes joke = new RandomJokes();
+                            joke.Builder();
+                            break;
+                    }
                 }
+                catch(Exception e)
+                {
+                    logger.LogDebug("Unexpected Error\n");
+                    logger.LogDebug(e.Message);
+                }
+                
             }
 
         }
