@@ -6,8 +6,5 @@ namespace JokeGenerator
 {
     interface IJokes
     {
-        void SetNumberOfJokes();
-        void SetName();
-        void PrintResult();
     }
 }
