@@ -10,11 +10,10 @@ namespace JokeGenerator
 {
     public class JokesController
     {
-        private Utilities _utilities;
+        private readonly Utilities _utilities;
         private string _url;
         string requestUri = "jokes/random";
-        Tuple<string, string> names;
-        int _resultIndex = 0;
+        readonly int _resultIndex = 0;
         public JokesController()
         {
             // we can use dependency injection, but since the solution is simple there is no need for over engineering
@@ -42,16 +41,20 @@ namespace JokeGenerator
         public List<string> GetAllJokesCategories()
         {
             _url = "https://api.chucknorris.io/jokes/categories";
-            HttpClient _client = new HttpClient();
-            _client.BaseAddress = new Uri(_url);
+            HttpClient _client = new HttpClient
+            {
+                BaseAddress = new Uri(_url)
+            };
             return JsonConvert.DeserializeObject<List<string>>(Task.FromResult(_client.GetStringAsync("categories").Result).Result);
         }
 
         public Tuple<string, string> GetNames()
         {
             _url = "https://randomuser.me/api/";
-            HttpClient client = new HttpClient();
-            client.BaseAddress = new Uri(_url);
+            HttpClient client = new HttpClient
+            {
+                BaseAddress = new Uri(_url)
+            };
             var result = JsonConvert.DeserializeObject<dynamic>(client.GetStringAsync("").Result);
             return Tuple.Create(Convert.ToString(result.results[_resultIndex].name.first), Convert.ToString(result.results[_resultIndex].name.last));
         }
